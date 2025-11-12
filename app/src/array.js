@@ -1,3 +1,11 @@
 const questions = [
   {
-    question: "What is the capital of France?",
+    id: 1,
+    question: "",
+    options: [],
+    correctAnswer: "",
+    explanation: "",
+    category: "",
+    difficulty: "",
+  },
+];
