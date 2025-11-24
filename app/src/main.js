@@ -23,11 +23,11 @@ function topicOptions() {
   });
 }
 
-function optionsHTML(option) {
-  const optionsContainer = document.querySelector(".options");
+function optionsHTML(option, containerId) {
+  const optionsContainer = document.getElementById(containerId);
   optionsContainer.insertAdjacentHTML(
     "beforeend",
-    `<input type="radio" name="option" value="${option}">${option}<br>`
+    `<input type="radio" name="${containerId}" value="${option}">${option}<br>`
   );
 }
 
@@ -36,18 +36,29 @@ function printAllQuestions() {
   questions.forEach((question) => {
     questionsContainer.insertAdjacentHTML(
       "beforeend",
-      `<div class="questioncard"></div>
+      `<div class="questioncard">
         <h3>Topic: ${question.question}</h3>
         <h4>Difficulty: ${question.difficulty}</h4>
-        <div id = ${question.id}}></div>
-        <h4>${question.category}</h4>`
+        <h4>${question.category}</h4>
+        <div id="options-${question.id}" class="options"></div>
+      </div>`
     );
     question.options.forEach((option) => {
-      optionsHTML(option);
+      optionsHTML(option, `options-${question.id}`);
     });
   });
+  questionsContainer.insertAdjacentHTML(
+    "beforeend",
+    `<button type="submit" id="submitBtn">Submit</button>`
+  );
 }
 
+function questionRandomizer() {
+  return questions.sort(() => Math.random() - 0.5); //If you just used Math.random(), the range would be 0 → 1, always positive. That means .sort() would always push one element after the other, not randomize.
+}
+
+function areAllQuestionsAnswered() {}
+questionRandomizer();
 difficultyOptions();
 topicOptions();
 printAllQuestions();
