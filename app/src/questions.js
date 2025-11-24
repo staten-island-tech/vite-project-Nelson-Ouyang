@@ -1,4 +1,4 @@
-const questions = [
+export const questions = [
   {
     id: 1,
     question: "What does it mean for an object to be malleable?",
@@ -786,5 +786,313 @@ const questions = [
       "Neural networks fundamentally operate on digital logic principles for computation and decision making.",
     category: "CircuitLab",
     difficulty: "Medium",
+  },
+  {
+    id: 61,
+    question: "What is the typical crystalline structure of ice?",
+    options: ["Cubic", "Hexagonal", "Tetragonal", "Orthorhombic", "Amorphous"],
+    correctAnswer: "Hexagonal",
+    explanation:
+      "Ice typically forms in a hexagonal crystalline structure, which is why snowflakes have six-fold symmetry.",
+    category: "DynamicPlanet",
+    difficulty: "Easy",
+  },
+  {
+    id: 62,
+    question:
+      "In the solid phase, what is the angle of the tetrahedral bond in a crystal lattice structure?",
+    options: ["109.5", "106.5", "107", "108.5", "110"],
+    correctAnswer: "109.5",
+    explanation:
+      "The tetrahedral bond angle in crystal lattice structures is approximately 109.5 degrees.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 63,
+    question:
+      "What is the intermediate stage between snow and glacial ice called?",
+    options: ["Meltwater", "Cirque", "Moraine", "Accumulation", "Névé"],
+    correctAnswer: "Névé",
+    explanation:
+      "Névé is the granular, partially compacted snow that forms the intermediate stage between snow and glacial ice.",
+    category: "DynamicPlanet",
+    difficulty: "Easy",
+  },
+  {
+    id: 64,
+    question:
+      "Firn is typically formed after how much time of snow compaction?",
+    options: ["1 day", "1 week", "1 year", "10 years", "100 years"],
+    correctAnswer: "1 year",
+    explanation:
+      "Firn typically forms after about one year of snow compaction and recrystallization.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 65,
+    question: "What is the term for the loss of ice and snow from a glacier?",
+    options: [
+      "Accumulation",
+      "Sublimation",
+      "Ablation",
+      "Compaction",
+      "Basal flow",
+    ],
+    correctAnswer: "Ablation",
+    explanation:
+      "Ablation refers to all processes that remove ice and snow from a glacier, including melting, evaporation, and calving.",
+    category: "DynamicPlanet",
+    difficulty: "Easy",
+  },
+  {
+    id: 66,
+    question:
+      "At which part of a glacier does the amount of accumulation equal the amount of ablation?",
+    options: [
+      "Firn line",
+      "Ablation zone",
+      "Equilibrium line",
+      "Ice shelf",
+      "Terminus",
+    ],
+    correctAnswer: "Equilibrium line",
+    explanation:
+      "The equilibrium line is where accumulation equals ablation over the course of a year.",
+    category: "DynamicPlanet",
+    difficulty: "Easy",
+  },
+  {
+    id: 67,
+    question:
+      "What is the term for glacier movement that occurs due to sliding at the base over bedrock?",
+    options: [
+      "Internal deformation",
+      "Basal sliding",
+      "Surface melting",
+      "Ice creep",
+      "Calving",
+    ],
+    correctAnswer: "Basal sliding",
+    explanation:
+      "Basal sliding occurs when a glacier moves by sliding over its bedrock base, often facilitated by meltwater lubrication.",
+    category: "DynamicPlanet",
+    difficulty: "Easy",
+  },
+  {
+    id: 68,
+    question: "How does the slope of a glacier affect its flow rate?",
+    options: [
+      "Steeper slopes cause glaciers to flow more slowly",
+      "The slope does not affect the glacier flow rate",
+      "Gentle slopes cause glaciers to accelerate",
+      "Slope only affects the rate of accumulation",
+      "Steeper slopes cause glaciers to flow more rapidly",
+    ],
+    correctAnswer: "Steeper slopes cause glaciers to flow more rapidly",
+    explanation:
+      "Glaciers flow faster on steeper slopes due to increased gravitational driving stress.",
+    category: "DynamicPlanet",
+    difficulty: "Easy",
+  },
+  {
+    id: 69,
+    question:
+      "Which of the following best describes the interaction between water pressure at the bed and glacial sliding velocity?",
+    options: [
+      "High water pressure decreases sliding velocity by enhancing ice-bed coupling",
+      "High water pressure increases sliding velocity by reducing basal friction",
+      "Water pressure has no measurable impact on sliding velocity",
+      "Water pressure increases basal melting, which slows down sliding velocity",
+      "Low water pressure creates cavities that enhance sliding",
+    ],
+    correctAnswer:
+      "High water pressure increases sliding velocity by reducing basal friction",
+    explanation:
+      "Higher water pressure at the glacier bed reduces friction between ice and bedrock, allowing faster sliding.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 70,
+    question:
+      "Which of the following features is primarily characterized by a fast-flowing region within an ice sheet that transports large volumes of ice towards the ocean?",
+    options: ["Ice Shelf", "Ice Tongue", "Ice Stream", "Ice Cap", "Ice Rise"],
+    correctAnswer: "Ice Stream",
+    explanation:
+      "Ice streams are fast-flowing regions within ice sheets that channel ice flow toward the ocean.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 71,
+    question: "An ice cap is best defined as:",
+    options: [
+      "A dome-shaped mass of ice that covers less than 50,000 square kilometers",
+      "A thick layer of ice that extends across an entire continent",
+      "A large glacier that flows into the sea, forming icebergs",
+      "A glacier that flows down from a mountain range into a valley",
+      "An ice formation that occurs primarily in polar regions",
+    ],
+    correctAnswer:
+      "A dome-shaped mass of ice that covers less than 50,000 square kilometers",
+    explanation:
+      "Ice caps are smaller than ice sheets and cover areas less than 50,000 km², typically dome-shaped.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 72,
+    question: "What are crevasses in glacial ice primarily formed by?",
+    options: [
+      "The melting of surface ice due to temperature rise",
+      "The differential movement of ice caused by stress and strain",
+      "The accumulation of snow at the glacier's terminus",
+      "The impact of debris falling onto the glacier surface",
+      "The formation of subglacial lakes beneath the glacier",
+    ],
+    correctAnswer:
+      "The differential movement of ice caused by stress and strain",
+    explanation:
+      "Crevasses form when glacial ice undergoes tensile stress from differential movement, causing fractures.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 73,
+    question: "Ogives are characterized by which of the following features?",
+    options: [
+      "They are indicative of glacier retreat and thinning",
+      "They appear as alternating bands of light and dark ice",
+      "They form due to surface melting during the summer months",
+      "They represent areas of significant calving activity",
+      "They are formed at the base of an ice shelf",
+    ],
+    correctAnswer: "They appear as alternating bands of light and dark ice",
+    explanation:
+      "Ogives are wave-like bands of alternating light and dark ice that form below icefalls in valley glaciers.",
+    category: "DynamicPlanet",
+    difficulty: "Hard",
+  },
+  {
+    id: 74,
+    question:
+      "What is the primary process involved in the calving of ice shelves?",
+    options: [
+      "Accumulation of snow on the shelf surface",
+      "Melting of ice due to ocean warming beneath the shelf",
+      "Compression of ice at the front of the shelf",
+      "The expansion of cracks caused by tidal forces",
+      "Increased snowfall on the glacier feeding the shelf",
+    ],
+    correctAnswer: "The expansion of cracks caused by tidal forces",
+    explanation:
+      "Calving of ice shelves primarily occurs through the propagation and expansion of cracks due to tidal flexing and other stresses.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 75,
+    question:
+      "Which of the following statements best describes the role of ice shelf buttressing?",
+    options: [
+      "It enhances the flow of glaciers into the ocean",
+      "It stabilizes glaciers by providing resistance to ice flow",
+      "It promotes calving events by increasing ice pressure",
+      "It is irrelevant to the dynamics of ice sheets",
+      "It increases the thickness of the ice shelf",
+    ],
+    correctAnswer: "It stabilizes glaciers by providing resistance to ice flow",
+    explanation:
+      "Ice shelf buttressing provides back pressure that slows the flow of inland ice, stabilizing glaciers.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 76,
+    question: "Icefalls are characterized by which of the following phenomena?",
+    options: [
+      "The gradual melting of ice due to warm air currents",
+      "The accumulation of ice at the glacier's terminus",
+      "A stable area of thickened ice with no movement",
+      "The formation of extensive crevasses at the glacier's surface",
+      "Rapid flow of ice over a steep drop, resulting in significant fracturing",
+    ],
+    correctAnswer:
+      "Rapid flow of ice over a steep drop, resulting in significant fracturing",
+    explanation:
+      "Icefalls occur where glaciers flow over steep bedrock, causing rapid movement and extensive crevasse formation.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 77,
+    question:
+      "Which process describes the phenomenon where marine ice sheets become unstable due to warm ocean currents eroding the ice from below?",
+    options: [
+      "Ice shelf buttressing",
+      "Calving",
+      "Marine ice sheet instability",
+      "Ice accretion",
+      "Glacier retreat",
+    ],
+    correctAnswer: "Marine ice sheet instability",
+    explanation:
+      "Marine ice sheet instability occurs when warm ocean water melts ice shelves from below, leading to accelerated ice flow.",
+    category: "DynamicPlanet",
+    difficulty: "Hard",
+  },
+  {
+    id: 78,
+    question: "What is the primary cause of crevasse formation in glaciers?",
+    options: [
+      "Seasonal variations in temperature cause ice to melt and refreeze",
+      "Increased accumulation of snow on the glacier's surface",
+      "Pressure from overlying ice compacting lower layers",
+      "Differential movement between the glacier's surface and its base",
+      "Erosion of bedrock beneath the glacier",
+    ],
+    correctAnswer:
+      "Differential movement between the glacier's surface and its base",
+    explanation:
+      "Crevasses form due to tensile stress from differential movement between different parts of the glacier.",
+    category: "DynamicPlanet",
+    difficulty: "Medium",
+  },
+  {
+    id: 79,
+    question:
+      "Which of the following factors primarily governs the formation of closed-system pingos in permafrost regions?",
+    options: [
+      "Groundwater pressure from confined aquifers",
+      "Lateral ice expansion",
+      "Seasonal freeze-thaw cycles",
+      "Surface evaporation rates",
+      "Differential solar radiation",
+    ],
+    correctAnswer: "Groundwater pressure from confined aquifers",
+    explanation:
+      "Closed-system pingos form when water in confined aquifers freezes and expands, pushing overlying sediment upward.",
+    category: "DynamicPlanet",
+    difficulty: "Hard",
+  },
+  {
+    id: 80,
+    question:
+      "What is the primary driving force behind solidification in periglacial environments?",
+    options: [
+      "Gravity-induced creep in thawed soil layers over permafrost",
+      "Wind erosion of surface sediments",
+      "Chemical weathering of silicate minerals",
+      "Seismic activity in polar regions",
+      "Snowpack accumulation on slopes",
+    ],
+    correctAnswer:
+      "Gravity-induced creep in thawed soil layers over permafrost",
+    explanation:
+      "Solidification refers to the slow downslope movement of water-saturated soil over permafrost due to gravity.",
+    category: "DynamicPlanet",
+    difficulty: "Hard",
   },
 ];

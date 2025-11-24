@@ -1,24 +1,53 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import "./style.css";
+import { questions } from "./questions.js";
+const topics = ["CircuitLab", "Forensics", "DynamicPlanet"];
+const difficulties = ["easy", "medium", "hard"];
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+function difficultyOptions() {
+  const difficultiesOptions = document.getElementById("selectdifficulty");
+  difficulties.forEach((difficulty) => {
+    difficultiesOptions.insertAdjacentHTML(
+      "afterbegin",
+      `<option value="${difficulty}">${difficulty}</option>`
+    );
+  });
+}
 
-setupCounter(document.querySelector('#counter'))
+function topicOptions() {
+  const topicOptions = document.getElementById("selecttopic");
+  topics.forEach((topic) => {
+    topicOptions.insertAdjacentHTML(
+      "afterbegin",
+      `<option value="${topic}">${topic}</option>`
+    );
+  });
+}
+
+function optionsHTML(option) {
+  const optionsContainer = document.querySelector(".options");
+  optionsContainer.insertAdjacentHTML(
+    "beforeend",
+    `<input type="radio" name="option" value="${option}">${option}<br>`
+  );
+}
+
+function printAllQuestions() {
+  const questionsContainer = document.getElementById("questionsContainer");
+  questions.forEach((question) => {
+    questionsContainer.insertAdjacentHTML(
+      "beforeend",
+      `<div class="questioncard"></div>
+        <h3>Topic: ${question.question}</h3>
+        <h4>Difficulty: ${question.difficulty}</h4>
+        <div id = ${question.id}}></div>
+        <h4>${question.category}</h4>`
+    );
+    question.options.forEach((option) => {
+      optionsHTML(option);
+    });
+  });
+}
+
+difficultyOptions();
+topicOptions();
+printAllQuestions();
