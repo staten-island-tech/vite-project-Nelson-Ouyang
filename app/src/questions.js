@@ -59,7 +59,7 @@ export const questions = [
     category: "MaterialScience",
     difficulty: "Medium",
   },
-  {
+  /* {
     id: 6,
     question:
       "Why is it important to consider the type of material used for a design?",
@@ -1094,5 +1094,5 @@ export const questions = [
       "Solidification refers to the slow downslope movement of water-saturated soil over permafrost due to gravity.",
     category: "DynamicPlanet",
     difficulty: "Hard",
-  },
+  }, */
 ];

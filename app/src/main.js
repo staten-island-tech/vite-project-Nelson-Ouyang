@@ -57,8 +57,37 @@ function questionRandomizer() {
   return questions.sort(() => Math.random() - 0.5); //If you just used Math.random(), the range would be 0 → 1, always positive. That means .sort() would always push one element after the other, not randomize.
 }
 
-function areAllQuestionsAnswered() {}
+function setupSubmit() {
+  const submitBtn = document.getElementById("submitBtn");
+
+  submitBtn.addEventListener("click", () => {
+    let allAnswered = true;
+    let score = 0;
+
+    questions.forEach((question) => {
+      const options = document.getElementsByName(`options-${question.id}`);
+      let answered = false;
+
+      options.forEach((option) => {
+        if (option.checked) {
+          answered = true;
+          if (option.value === question.answer) score++;
+        }
+      });
+
+      if (!answered) allAnswered = false;
+    });
+
+    if (!allAnswered) {
+      alert("Please answer all questions before submitting.");
+    } else {
+      alert(`Your score is ${score} out of ${questions.length}`);
+    }
+  });
+}
+
 questionRandomizer();
 difficultyOptions();
 topicOptions();
 printAllQuestions();
+setupSubmit();
