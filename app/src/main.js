@@ -1,89 +1,107 @@
 import "./style.css";
 import { questions } from "./questions.js";
 
-const topics = ["all", "CircuitLab", "Forensics", "DynamicPlanet"];
-const difficulties = ["all", "easy", "medium", "hard"];
-const sortedQuestions = [];
+const sortedQuestions = document.getElementById("sortedQuestions");
+const difficultySelect = document.getElementById("selectdifficulty");
+const topicSelect = document.getElementById("selecttopic");
 
-function questionRandomizer() {
-  questions.sort(() => Math.random() - 0.5);
-}
-questionRandomizer();
+const topics = ["CircuitLab", "Forensics", "DynamicPlanet", "MaterialScience"];
+const difficulties = ["Easy", "Medium", "Hard"];
 
-function renderQuestions(list) {
-  const sortedQuestionsContainer = document.getElementById("sortedQuestions");
-  sortedQuestionsContainer.innerHTML = "";
-
-  list.forEach((question) => {
-    sortedQuestionsContainer.insertAdjacentHTML(
-      "beforeend",
-      `<div class="questioncard">
-        <h3>${question.question}</h3>
-        <h4>Difficulty: ${question.difficulty}</h4>
-        <h4>Topic: ${question.category}</h4>
-        <div id="options-${question.id}" class="options"></div>
-      </div>`
-    );
-  });
-}
-
-function sort() {
-  const difficultySelect = document.getElementById("selectdifficulty");
-  const topicSelect = document.getElementById("selecttopic");
-
-  function applyFilter() {
-    const selectedDifficulty = difficultySelect.value;
-    const selectedTopic = topicSelect.value;
-
-    sortedQuestions.length = 0;
-
-    if (selectedDifficulty === "all" && selectedTopic === "all") {
-      sortedQuestions.push(...questions);
-    } else {
-      // Filter by difficulty and topic
-      questions.forEach((q) => {
-        const matchesDifficulty =
-          selectedDifficulty === "all" || q.difficulty === selectedDifficulty;
-        const matchesTopic =
-          selectedTopic === "all" || q.category === selectedTopic;
-
-        if (matchesDifficulty && matchesTopic) {
-          sortedQuestions.push(q);
-        }
-      });
-    }
-
-    renderQuestions(sortedQuestions);
-  }
-
-  // Attach listeners
-  difficultySelect.addEventListener("change", applyFilter);
-  topicSelect.addEventListener("change", applyFilter);
-
-  // Initial render
-  applyFilter();
-}
-
-function difficultyOptions() {
-  const difficultiesOptions = document.getElementById("selectdifficulty");
+function populateOptions() {
   difficulties.forEach((difficulty) => {
-    difficultiesOptions.insertAdjacentHTML(
+    difficultySelect.insertAdjacentHTML(
       "beforeend",
       `<option value="${difficulty}">${difficulty}</option>`
     );
   });
-}
 
-function topicOptions() {
-  const topicOptions = document.getElementById("selecttopic");
   topics.forEach((topic) => {
-    topicOptions.insertAdjacentHTML(
+    topicSelect.insertAdjacentHTML(
       "beforeend",
       `<option value="${topic}">${topic}</option>`
     );
   });
 }
 
-difficultyOptions();
-topicOptions();
-sort();
+function injectQuestion(item) {
+  let optionsHtml = "";
+  item.options.forEach((option) => {
+    optionsHtml += `<button class="option-btn" data-id="${item.id}">${option}</button>`;
+  });
+
+  sortedQuestions.insertAdjacentHTML(
+    "beforeend",
+    `<div class="questioncard">
+      <h3>${item.question}</h3>
+      <h4>Difficulty: ${item.difficulty}</h4>
+      <h4>Topic: ${item.category}</h4>
+      <div class="options">
+        ${optionsHtml}
+      </div>
+      <p class="explanation" id="explanation-${item.id}" style="display: none;">
+        ${item.explanation}
+      </p>
+    </div>`
+  );
+}
+
+function displayAllCards() {
+  sortedQuestions.innerHTML = "";
+  questions.forEach((question) => {
+    injectQuestion(question);
+  });
+}
+
+function getSelectedValues(selectElement) {
+  const selected = [];
+  for (let i = 0; i < selectElement.options.length; i++) {
+    if (selectElement.options[i].selected) {
+      selected.push(selectElement.options[i].value); //literally push the value of the selected option into the array
+    }
+  }
+  return selected;
+}
+
+function filterQuestions() {
+  const selectedDifficulties = getSelectedValues(difficultySelect); //literally gets the selected values from the select element
+  const selectedTopics = getSelectedValues(topicSelect);
+
+  sortedQuestions.innerHTML = "";
+
+  // If NOTHING selected, show ALL questions
+  if (selectedDifficulties.length === 0 && selectedTopics.length === 0) {
+    displayAllCards();
+    return;
+  }
+
+  //Filter questions
+  questions.forEach((question) => {
+    let showThisQuestion = false; //cuz it dpeends on what the filters are duhh
+
+    const matchesDifficulty =
+      selectedDifficulties.length === 0 ||
+      selectedDifficulties.includes(question.difficulty);
+    //Check topic matches
+    const matchesTopic =
+      selectedTopics.length === 0 || selectedTopics.includes(question.category);
+    //Show if matches BOTH conditions (OR if one filter is empty)
+    if (matchesDifficulty && matchesTopic) {
+      showThisQuestion = true;
+    }
+
+    if (showThisQuestion) {
+      injectQuestion(question);
+    }
+  });
+}
+
+function randomizeQuestions() {
+  questions.sort(() => Math.random() - 0.5);
+}
+
+randomizeQuestions();
+populateOptions();
+displayAllCards();
+difficultySelect.addEventListener("change", filterQuestions);
+topicSelect.addEventListener("change", filterQuestions);
