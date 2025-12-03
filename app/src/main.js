@@ -26,8 +26,20 @@ function populateOptions() {
 
 function injectQuestion(item) {
   let optionsHtml = "";
-  item.options.forEach((option) => {
-    optionsHtml += `<button class="option-btn" data-id="${item.id}">${option}</button>`;
+  item.options.forEach((option, index) => {
+    const optionId = `${item.id}-option${index}`;
+    optionsHtml += `
+      <div class="option-item">
+        <input 
+          type="radio" 
+          id="${optionId}" 
+          name="question-${item.id}" 
+          value="${option}"
+          class="option-radio"
+        >
+        <label for="${optionId}" class="option-label">${option}</label>
+      </div>
+    `;
   });
 
   sortedQuestions.insertAdjacentHTML(
@@ -100,8 +112,55 @@ function randomizeQuestions() {
   questions.sort(() => Math.random() - 0.5);
 }
 
+function checkIfAllAnswered() {
+  const questionCards = document.querySelectorAll(".questioncard");
+  let allAnswered = true;
+
+  questionCards.forEach((card) => {
+    const options = card.querySelectorAll(".option-radio");
+    let answered = false;
+
+    options.forEach((option) => {
+      if (option.checked) {
+        answered = true;
+      }
+    });
+
+    if (!answered) {
+      allAnswered = false;
+    }
+  });
+
+  if (!allAnswered) {
+    alert("Please answer all questions before submitting.");
+  } else {
+    alert("go submit or check over");
+  }
+}
+
+function scoreHandler() {
+  let totalscore = questions.length;
+  let userscore = 0;
+
+  questions.forEach((question) => {
+    const selected = document.querySelector(
+      `input[name="question-${question.id}"]:checked` //selects the checked input for the specific question
+    );
+    if (selected && selected.value === question.correct) {
+      userscore += 1;
+    }
+  });
+  alert(`You scored ${userscore} out of ${totalscore}`);
+}
+
+function submitButtonHandler() {
+  const submitBtn = document.getElementById("submitBtn");
+  submitBtn.addEventListener("click", checkIfAllAnswered, scoreHandler);
+}
+
 randomizeQuestions();
 populateOptions();
 displayAllCards();
 difficultySelect.addEventListener("change", filterQuestions);
 topicSelect.addEventListener("change", filterQuestions);
+submitButtonHandler();
