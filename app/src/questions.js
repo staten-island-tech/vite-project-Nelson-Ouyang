@@ -29,7 +29,7 @@ export const questions = [
     category: "MaterialScience",
     difficulty: "Easy",
   },
-  {
+  /*   {
     id: 3,
     question: "Glue is what type of material?",
     options: ["Metal", "Ceramic", "Polymer", "Composite"],
@@ -58,8 +58,8 @@ export const questions = [
       "The paper clip bends permanently under stress, demonstrating plastic deformation.",
     category: "MaterialScience",
     difficulty: "Medium",
-  },
-  {
+  }, */
+  /* {
     id: 6,
     question:
       "Why is it important to consider the type of material used for a design?",
@@ -1094,5 +1094,5 @@ export const questions = [
       "Solidification refers to the slow downslope movement of water-saturated soil over permafrost due to gravity.",
     category: "DynamicPlanet",
     difficulty: "Hard",
-  },
+  }, */
 ];

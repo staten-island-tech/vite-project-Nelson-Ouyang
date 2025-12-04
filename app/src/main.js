@@ -4,7 +4,6 @@ import { questions } from "./questions.js";
 const sortedQuestions = document.getElementById("sortedQuestions");
 const difficultySelect = document.getElementById("selectdifficulty");
 const topicSelect = document.getElementById("selecttopic");
-
 const topics = ["CircuitLab", "Forensics", "DynamicPlanet", "MaterialScience"];
 const difficulties = ["Easy", "Medium", "Hard"];
 
@@ -134,7 +133,7 @@ function checkIfAllAnswered() {
   if (!allAnswered) {
     alert("Please answer all questions before submitting.");
   } else {
-    alert("go submit or check over");
+    scoreHandler();
   }
 }
 
@@ -146,11 +145,20 @@ function scoreHandler() {
     const selected = document.querySelector(
       `input[name="question-${question.id}"]:checked` //selects the checked input for the specific question
     );
-    if (selected && selected.value === question.correct) {
+    if (selected && selected.value === question.correctAnswer) {
       userscore += 1;
     }
   });
-  alert(`You scored ${userscore} out of ${totalscore}`);
+  displayScore(userscore, totalscore);
+}
+
+function displayScore(userscore, totalscore) {
+  const displayScoreDiv = document.getElementById("displayScore");
+  const scoreText = document.getElementById("scoreText");
+
+  scoreText.textContent = `Your Score: ${userscore} / ${totalscore}`;
+
+  displayScoreDiv.style.display = "flex"; // show centered popup
 }
 
 function submitButtonHandler() {
@@ -164,3 +172,6 @@ displayAllCards();
 difficultySelect.addEventListener("change", filterQuestions);
 topicSelect.addEventListener("change", filterQuestions);
 submitButtonHandler();
+document.getElementById("closeScore").addEventListener("click", () => {
+  document.getElementById("displayScore").style.display = "none";
+});
