@@ -23,10 +23,17 @@ function populateOptions() {
   });
 }
 
-function injectQuestion(item) {
+function injectQuestion(item, showAnswers = false) {
   let optionsHtml = "";
   item.options.forEach((option, index) => {
     const optionId = `${item.id}-option${index}`;
+    const isCorrect = option === item.correctAnswer;
+    let optionClass = "option-label";
+
+    if (showAnswers && isCorrect) {
+      optionClass += " correct-answer";
+    }
+
     optionsHtml += `
       <div class="option-item">
         <input 
@@ -35,8 +42,10 @@ function injectQuestion(item) {
           name="question-${item.id}" 
           value="${option}"
           class="option-radio"
+          ${showAnswers && isCorrect ? "checked" : ""}
+          ${showAnswers ? "disabled" : ""}
         >
-        <label for="${optionId}" class="option-label">${option}</label>
+        <label for="${optionId}" class="${optionClass}">${option}</label>
       </div>
     `;
   });
@@ -50,17 +59,19 @@ function injectQuestion(item) {
       <div class="options">
         ${optionsHtml}
       </div>
-      <p class="explanation" id="explanation-${item.id}" style="display: none;">
+      <p class="explanation" id="explanation-${item.id}" style="display: ${
+      showAnswers ? "block" : "none"
+    };">
         ${item.explanation}
       </p>
     </div>`
   );
 }
 
-function displayAllCards() {
+function displayAllCards(showAnswers = false) {
   sortedQuestions.innerHTML = "";
   questions.forEach((question) => {
-    injectQuestion(question);
+    injectQuestion(question, showAnswers);
   });
 }
 
@@ -68,35 +79,32 @@ function getSelectedValues(selectElement) {
   const selected = [];
   for (let i = 0; i < selectElement.options.length; i++) {
     if (selectElement.options[i].selected) {
-      selected.push(selectElement.options[i].value); //literally push the value of the selected option into the array
+      selected.push(selectElement.options[i].value);
     }
   }
   return selected;
 }
 
 function filterQuestions() {
-  const selectedDifficulties = getSelectedValues(difficultySelect); //literally gets the selected values from the select element
+  const selectedDifficulties = getSelectedValues(difficultySelect);
   const selectedTopics = getSelectedValues(topicSelect);
 
   sortedQuestions.innerHTML = "";
 
-  // If NOTHING selected, show ALL questions
   if (selectedDifficulties.length === 0 && selectedTopics.length === 0) {
     displayAllCards();
     return;
   }
 
-  //Filter questions
   questions.forEach((question) => {
-    let showThisQuestion = false; //cuz it dpeends on what the filters are duhh
+    let showThisQuestion = false;
 
     const matchesDifficulty =
       selectedDifficulties.length === 0 ||
       selectedDifficulties.includes(question.difficulty);
-    //Check topic matches
     const matchesTopic =
       selectedTopics.length === 0 || selectedTopics.includes(question.category);
-    //Show if matches BOTH conditions (OR if one filter is empty)
+
     if (matchesDifficulty && matchesTopic) {
       showThisQuestion = true;
     }
@@ -143,7 +151,7 @@ function scoreHandler() {
 
   questions.forEach((question) => {
     const selected = document.querySelector(
-      `input[name="question-${question.id}"]:checked` //selects the checked input for the specific question
+      `input[name="question-${question.id}"]:checked`
     );
     if (selected && selected.value === question.correctAnswer) {
       userscore += 1;
@@ -158,12 +166,12 @@ function displayScore(userscore, totalscore) {
 
   scoreText.textContent = `Your Score: ${userscore} / ${totalscore}`;
 
-  displayScoreDiv.style.display = "flex"; // show centered popup
+  displayScoreDiv.style.display = "flex";
 }
 
 function submitButtonHandler() {
   const submitBtn = document.getElementById("submitBtn");
-  submitBtn.addEventListener("click", checkIfAllAnswered, scoreHandler);
+  submitBtn.addEventListener("click", checkIfAllAnswered);
 }
 
 randomizeQuestions();
@@ -172,6 +180,8 @@ displayAllCards();
 difficultySelect.addEventListener("change", filterQuestions);
 topicSelect.addEventListener("change", filterQuestions);
 submitButtonHandler();
+
 document.getElementById("closeScore").addEventListener("click", () => {
   document.getElementById("displayScore").style.display = "none";
+  displayAllCards(true); // Clear and redisplay with answers shown
 });

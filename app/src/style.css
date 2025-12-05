@@ -96,3 +96,9 @@ input {
   cursor: pointer;
   font-size: 1.3em;
 }
+
+/* Add this to your existing style.css */
+.correct-answer {
+  color: green;
+  font-weight: bold;
+}
