@@ -29,7 +29,7 @@ export const questions = [
     category: "MaterialScience",
     difficulty: "Easy",
   },
-  /*   {
+  {
     id: 3,
     question: "Glue is what type of material?",
     options: ["Metal", "Ceramic", "Polymer", "Composite"],
@@ -58,7 +58,7 @@ export const questions = [
       "The paper clip bends permanently under stress, demonstrating plastic deformation.",
     category: "MaterialScience",
     difficulty: "Medium",
-  }, */
+  },
   /* {
     id: 6,
     question:

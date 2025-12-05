@@ -7,6 +7,9 @@ const topicSelect = document.getElementById("selecttopic");
 const topics = ["CircuitLab", "Forensics", "DynamicPlanet", "MaterialScience"];
 const difficulties = ["Easy", "Medium", "Hard"];
 
+//variable to track currently displayed questions
+let currentDisplayedQuestions = [...questions];
+
 function populateOptions() {
   difficulties.forEach((difficulty) => {
     difficultySelect.insertAdjacentHTML(
@@ -23,7 +26,7 @@ function populateOptions() {
   });
 }
 
-function injectQuestion(item, showAnswers = false) {
+function injectQuestion(item, questionNumber, showAnswers = false) {
   let optionsHtml = "";
   item.options.forEach((option, index) => {
     const optionId = `${item.id}-option${index}`;
@@ -53,7 +56,7 @@ function injectQuestion(item, showAnswers = false) {
   sortedQuestions.insertAdjacentHTML(
     "beforeend",
     `<div class="questioncard">
-      <h3>${item.question}</h3>
+    <h3>Question ${questionNumber}: ${item.question}</h3>
       <h4>Difficulty: ${item.difficulty}</h4>
       <h4>Topic: ${item.category}</h4>
       <div class="options">
@@ -62,16 +65,18 @@ function injectQuestion(item, showAnswers = false) {
       <p class="explanation" id="explanation-${item.id}" style="display: ${
       showAnswers ? "block" : "none"
     };">
-        ${item.explanation}
+        Explanation: ${item.explanation}
       </p>
     </div>`
   );
 }
 
-function displayAllCards(showAnswers = false) {
+// Updated function to display specific questions
+function displayQuestions(questionsToShow, showAnswers = false) {
   sortedQuestions.innerHTML = "";
-  questions.forEach((question) => {
-    injectQuestion(question, showAnswers);
+  questionsToShow.forEach((question, index) => {
+    const questionNumber = index + 1;
+    injectQuestion(question, questionNumber, showAnswers);
   });
 }
 
@@ -85,14 +90,17 @@ function getSelectedValues(selectElement) {
   return selected;
 }
 
+// Updated to track currently displayed questions
 function filterQuestions() {
   const selectedDifficulties = getSelectedValues(difficultySelect);
   const selectedTopics = getSelectedValues(topicSelect);
 
   sortedQuestions.innerHTML = "";
+  currentDisplayedQuestions = []; // Reset current displayed questions
 
   if (selectedDifficulties.length === 0 && selectedTopics.length === 0) {
-    displayAllCards();
+    currentDisplayedQuestions = [...questions];
+    displayQuestions(currentDisplayedQuestions);
     return;
   }
 
@@ -107,6 +115,7 @@ function filterQuestions() {
 
     if (matchesDifficulty && matchesTopic) {
       showThisQuestion = true;
+      currentDisplayedQuestions.push(question); // Track displayed question
     }
 
     if (showThisQuestion) {
@@ -145,11 +154,12 @@ function checkIfAllAnswered() {
   }
 }
 
+// Updated to use currentDisplayedQuestions instead of all questions
 function scoreHandler() {
-  let totalscore = questions.length;
+  let totalscore = currentDisplayedQuestions.length; // Use filtered count
   let userscore = 0;
 
-  questions.forEach((question) => {
+  currentDisplayedQuestions.forEach((question) => {
     const selected = document.querySelector(
       `input[name="question-${question.id}"]:checked`
     );
@@ -176,12 +186,15 @@ function submitButtonHandler() {
 
 randomizeQuestions();
 populateOptions();
-displayAllCards();
+
+displayQuestions(currentDisplayedQuestions);
+
 difficultySelect.addEventListener("change", filterQuestions);
 topicSelect.addEventListener("change", filterQuestions);
 submitButtonHandler();
 
+// Updated to show answers only for current displayed questions
 document.getElementById("closeScore").addEventListener("click", () => {
   document.getElementById("displayScore").style.display = "none";
-  displayAllCards(true); // Clear and redisplay with answers shown
+  displayQuestions(currentDisplayedQuestions, true); // Show answers for filtered questions only
 });
