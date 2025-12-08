@@ -97,8 +97,46 @@ input {
   font-size: 1.3em;
 }
 
-/* Add this to your existing style.css */
+
 .correct-answer {
-  color: green;
-  font-weight: bold;
+  background-color: #d4edda !important;
+  color: #155724 !important;
+  border: 2px solid #c3e6cb !important;
 }
+
+.wrong-answer {
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+  border: 2px solid #f5c6cb !important;
+}
+
+.option-label {
+  display: block;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.option-label:hover {
+  background-color: #f5f5f5;
+}
+
+.option-radio:checked  + .option-label {
+  background-color: #e8f4fc;
+  border-color: #007bff;
+}
+.option-radio {
+  display: none;
+}
+
+.explanation {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-left: 4px solid #007bff; // i like the design of this
+  font-style: italic;
+}
+

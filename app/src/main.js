@@ -6,10 +6,9 @@ const difficultySelect = document.getElementById("selectdifficulty");
 const topicSelect = document.getElementById("selecttopic");
 const topics = ["CircuitLab", "Forensics", "DynamicPlanet", "MaterialScience"];
 const difficulties = ["Easy", "Medium", "Hard"];
-
-//variable to track currently displayed questions
 let currentDisplayedQuestions = [...questions];
-let showAnswersMode = false; // Global state to track if we should show answers
+let showAnswersMode = false;
+let userAnswers = {}; //{questionId: selectedAnswer}
 
 function populateOptions() {
   difficulties.forEach((difficulty) => {
@@ -29,25 +28,32 @@ function populateOptions() {
 
 function injectQuestion(item, questionNumber) {
   let optionsHtml = "";
+  let userAnswer = userAnswers[item.id]; //Get stored user answer
+
   item.options.forEach((option, index) => {
     const optionId = `${item.id}-option${index}`;
     const isCorrect = option === item.correctAnswer;
+    const isUserAnswer = option === userAnswer;
     let optionClass = "option-label";
 
-    if (showAnswersMode && isCorrect) {
-      optionClass += " correct-answer";
+    if (showAnswersMode) {
+      if (isCorrect) {
+        optionClass += " correct-answer";
+      } else if (isUserAnswer && !isCorrect) {
+        optionClass += " wrong-answer";
+      }
     }
 
     optionsHtml += `
-      <div class="option-item">
+      <div class="option-item"> 
         <input 
           type="radio" 
           id="${optionId}" 
           name="question-${item.id}" 
           value="${option}"
           class="option-radio"
-          ${showAnswersMode && isCorrect ? "checked" : ""}
-          ${showAnswersMode ? "disabled" : ""}
+          ${isUserAnswer ? "checked" : ""}  //Always show user's selection
+          ${showAnswersMode ? "disabled" : ""} //cant click no more hahahah
         >
         <label for="${optionId}" class="${optionClass}">${option}</label>
       </div>
@@ -56,7 +62,7 @@ function injectQuestion(item, questionNumber) {
 
   sortedQuestions.insertAdjacentHTML(
     "beforeend",
-    `<div class="questioncard">
+    `<div class="questioncard" data-id="${item.id}">
     <h3>Question ${questionNumber}: ${item.question}</h3>
       <h4>Difficulty: ${item.difficulty}</h4>
       <h4>Topic: ${item.category}</h4>
@@ -79,6 +85,21 @@ function displayQuestions(questionsToShow) {
     const questionNumber = index + 1;
     injectQuestion(question, questionNumber);
   });
+
+  // Add event listeners to store user answers when they select options
+  if (!showAnswersMode) {
+    addAnswerListeners();
+  }
+}
+
+function addAnswerListeners() {
+  const radioInputs = document.querySelectorAll(".option-radio");
+  radioInputs.forEach((input) => {
+    input.addEventListener("change", (e) => {
+      const questionId = e.target.name.split("-")[1];
+      userAnswers[questionId] = e.target.value; //store selected ans so we can check if correct later and gie color
+    });
+  });
 }
 
 function getSelectedValues(selectElement) {
@@ -91,13 +112,12 @@ function getSelectedValues(selectElement) {
   return selected;
 }
 
-// Updated to track currently displayed questions
 function filterQuestions() {
   const selectedDifficulties = getSelectedValues(difficultySelect);
   const selectedTopics = getSelectedValues(topicSelect);
 
   sortedQuestions.innerHTML = "";
-  currentDisplayedQuestions = []; // Reset current displayed questions
+  currentDisplayedQuestions = [];
 
   if (selectedDifficulties.length === 0 && selectedTopics.length === 0) {
     currentDisplayedQuestions = [...questions];
@@ -116,13 +136,13 @@ function filterQuestions() {
 
     if (matchesDifficulty && matchesTopic) {
       showThisQuestion = true;
-      currentDisplayedQuestions.push(question); // Track displayed question
+      currentDisplayedQuestions.push(question);
     }
 
     if (showThisQuestion) {
-      injectQuestion(question);
     }
   });
+  displayQuestions(currentDisplayedQuestions);
 }
 
 function randomizeQuestions() {
@@ -130,45 +150,36 @@ function randomizeQuestions() {
 }
 
 function checkIfAllAnswered() {
-  const questionCards = document.querySelectorAll(".questioncard");
   let allAnswered = true;
+  const unansweredQuestions = [];
 
-  questionCards.forEach((card) => {
-    const options = card.querySelectorAll(".option-radio");
-    let answered = false;
-
-    options.forEach((option) => {
-      if (option.checked) {
-        answered = true;
-      }
-    });
-
-    if (!answered) {
+  currentDisplayedQuestions.forEach((question, index) => {
+    if (!userAnswers[question.id]) {
       allAnswered = false;
+      unansweredQuestions.push(index + 1);
     }
   });
 
   if (!allAnswered) {
-    alert("Please answer all questions before submitting.");
+    alert(`Missing questions: ${unansweredQuestions.join(", ")}`);
   } else {
     scoreHandler();
   }
 }
 
-// Updated to use currentDisplayedQuestions instead of all questions
 function scoreHandler() {
-  let totalscore = currentDisplayedQuestions.length; // Use filtered count
+  let totalscore = currentDisplayedQuestions.length;
   let userscore = 0;
 
   currentDisplayedQuestions.forEach((question) => {
-    const selected = document.querySelector(
-      `input[name="question-${question.id}"]:checked`
-    );
-    if (selected && selected.value === question.correctAnswer) {
+    if (userAnswers[question.id] === question.correctAnswer) {
       userscore += 1;
     }
   });
+
   displayScore(userscore, totalscore);
+  showAnswersMode = true;
+  displayQuestions(currentDisplayedQuestions);
 }
 
 function displayScore(userscore, totalscore) {
@@ -187,19 +198,16 @@ function submitButtonHandler() {
 
 randomizeQuestions();
 populateOptions();
-
-// Set initial mode to false (not showing answers)
 showAnswersMode = false;
+userAnswers = {};
 displayQuestions(currentDisplayedQuestions);
-
-difficultySelect.addEventListener("change", filterQuestions);
-topicSelect.addEventListener("change", filterQuestions);
+difficultySelect.addEventListener(
+  "change",
+  filterQuestions,
+  randomizeQuestions
+);
+topicSelect.addEventListener("change", filterQuestions, randomizeQuestions);
 submitButtonHandler();
-
-// Updated to show answers only for current displayed questions
 document.getElementById("closeScore").addEventListener("click", () => {
   document.getElementById("displayScore").style.display = "none";
-  // Toggle to show answers mode
-  showAnswersMode = true;
-  displayQuestions(currentDisplayedQuestions);
 });
