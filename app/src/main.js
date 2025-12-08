@@ -9,6 +9,7 @@ const difficulties = ["Easy", "Medium", "Hard"];
 
 //variable to track currently displayed questions
 let currentDisplayedQuestions = [...questions];
+let showAnswersMode = false; // Global state to track if we should show answers
 
 function populateOptions() {
   difficulties.forEach((difficulty) => {
@@ -26,14 +27,14 @@ function populateOptions() {
   });
 }
 
-function injectQuestion(item, questionNumber, showAnswers = false) {
+function injectQuestion(item, questionNumber) {
   let optionsHtml = "";
   item.options.forEach((option, index) => {
     const optionId = `${item.id}-option${index}`;
     const isCorrect = option === item.correctAnswer;
     let optionClass = "option-label";
 
-    if (showAnswers && isCorrect) {
+    if (showAnswersMode && isCorrect) {
       optionClass += " correct-answer";
     }
 
@@ -45,8 +46,8 @@ function injectQuestion(item, questionNumber, showAnswers = false) {
           name="question-${item.id}" 
           value="${option}"
           class="option-radio"
-          ${showAnswers && isCorrect ? "checked" : ""}
-          ${showAnswers ? "disabled" : ""}
+          ${showAnswersMode && isCorrect ? "checked" : ""}
+          ${showAnswersMode ? "disabled" : ""}
         >
         <label for="${optionId}" class="${optionClass}">${option}</label>
       </div>
@@ -63,7 +64,7 @@ function injectQuestion(item, questionNumber, showAnswers = false) {
         ${optionsHtml}
       </div>
       <p class="explanation" id="explanation-${item.id}" style="display: ${
-      showAnswers ? "block" : "none"
+      showAnswersMode ? "block" : "none"
     };">
         Explanation: ${item.explanation}
       </p>
@@ -72,11 +73,11 @@ function injectQuestion(item, questionNumber, showAnswers = false) {
 }
 
 // Updated function to display specific questions
-function displayQuestions(questionsToShow, showAnswers = false) {
+function displayQuestions(questionsToShow) {
   sortedQuestions.innerHTML = "";
   questionsToShow.forEach((question, index) => {
     const questionNumber = index + 1;
-    injectQuestion(question, questionNumber, showAnswers);
+    injectQuestion(question, questionNumber);
   });
 }
 
@@ -187,6 +188,8 @@ function submitButtonHandler() {
 randomizeQuestions();
 populateOptions();
 
+// Set initial mode to false (not showing answers)
+showAnswersMode = false;
 displayQuestions(currentDisplayedQuestions);
 
 difficultySelect.addEventListener("change", filterQuestions);
@@ -196,5 +199,7 @@ submitButtonHandler();
 // Updated to show answers only for current displayed questions
 document.getElementById("closeScore").addEventListener("click", () => {
   document.getElementById("displayScore").style.display = "none";
-  displayQuestions(currentDisplayedQuestions, true); // Show answers for filtered questions only
+  // Toggle to show answers mode
+  showAnswersMode = true;
+  displayQuestions(currentDisplayedQuestions);
 });
