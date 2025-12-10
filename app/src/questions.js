@@ -1095,4 +1095,13 @@ export const questions = [
     category: "DynamicPlanet",
     difficulty: "Hard",
   },
+  {
+    id: 81,
+    question: "is mr whalen red all the time",
+    options: ["ye", "no", "maybe", "idk"],
+    correctAnswer: "ye",
+    explanation: "something blood vessels",
+    category: "Forensics",
+    difficulty: "Hard",
+  },
 ];

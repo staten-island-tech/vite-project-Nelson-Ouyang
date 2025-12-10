@@ -96,8 +96,10 @@ function addAnswerListeners() {
   const radioInputs = document.querySelectorAll(".option-radio");
   radioInputs.forEach((input) => {
     input.addEventListener("change", (e) => {
-      const questionId = e.target.name.split("-")[1];
+      const questionId = e.target.name.split("-")[1]; //string method that takes a separator and breaks the string into an array based on that separator. ex: "question-5" -> ["question", "5"] it came from optionid btw
       userAnswers[questionId] = e.target.value; //store selected ans so we can check if correct later and gie color
+
+      console.log(questionId);
     });
   });
 }
