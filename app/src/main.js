@@ -148,7 +148,8 @@ function filterQuestions() {
 }
 
 function randomizeQuestions() {
-  questions.sort(() => Math.random() - 0.5);
+  currentDisplayedQuestions.sort(() => Math.random() - 0.5);
+  displayQuestions(currentDisplayedQuestions);
 }
 
 function checkIfAllAnswered() {
