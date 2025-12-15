@@ -136,26 +136,11 @@ input {
   margin-top: 15px;
   padding: 10px;
   background-color: #f8f9fa;
-  border-left: 4px solid #007bff; // i like the design of this
+  border-left: 4px solid #007bff;  
   font-style: italic;
 }
 
-/* Dark Mode Styles
 
-#2c2f3a
-rgb(44, 47, 58)
-
-#4a4c54
-rgb(74, 76, 84)
-
-#5a5c63
-rgb(90, 92, 99)
-
-#95999d
-rgb(149, 153, 157)
-
-#f2f2f2
-rgb(242, 242, 242)*/
 
 
 body.dark-mode {
@@ -263,7 +248,7 @@ body.dark-mode .scoreContent * {
   color: #f2f2f2 !important;
 }
 
-/* Fix score popup text in dark mode */
+
 body.dark-mode .scoreContent {
   background-color: #4a4c54;
   color: #f2f2f2;

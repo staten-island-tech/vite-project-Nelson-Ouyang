@@ -214,16 +214,13 @@ submitButtonHandler();
 document.getElementById("closeScore").addEventListener("click", () => {
   document.getElementById("displayScore").style.display = "none";
 });
-// Get the toggle checkbox
-const themeToggle = document.getElementById("themeToggle");
 
+const themeToggle = document.getElementById("themeToggle");
 // When checkbox changes (checked/unchecked)
 themeToggle.addEventListener("change", function () {
   if (this.checked) {
-    // If checked → add dark-mode class
     document.body.classList.add("dark-mode");
   } else {
-    // If unchecked → remove dark-mode class
     document.body.classList.remove("dark-mode");
   }
 });
